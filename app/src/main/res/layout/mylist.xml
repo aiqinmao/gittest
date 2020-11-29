@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_mylist_class"
+        android:textColor="#000000"
+        android:layout_marginLeft="20dp"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="2dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+    <TextView
+        android:id="@+id/tv_mylist_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#436EEE"
+        android:layout_alignLeft="@id/tv_mylist_class"
+        android:paddingLeft="200dp"
+        android:paddingTop="5dp"
+        android:lines="1"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
+    <TextView
+        android:id="@+id/tv_mylist_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"
+        android:layout_alignLeft="@id/tv_mylist_class"
+        android:paddingLeft="200dp"
+        android:layout_below="@id/tv_mylist_account"
+        android:lines="1"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+</RelativeLayout>
