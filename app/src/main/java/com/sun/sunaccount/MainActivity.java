@@ -1,12 +1,16 @@
 package com.sun.sunaccount;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Xml;
@@ -162,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         db.delete("myaccount",null,null);//导入前先清空表中所有数据
         try
         {
+            get_choose_path();
             File path=new File(Environment.getExternalStorageDirectory(),"sunAccount.xml");
             FileInputStream fis=new FileInputStream(path);
             //获得pull解析器对象
@@ -223,5 +228,40 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(this,"导入失败",Toast.LENGTH_SHORT).show();
         }
+    }
+    public void get_choose_path()
+    {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        try
+        {
+            startActivityForResult(intent.createChooser(intent,"Choose File"),1);
+        }catch (ActivityNotFoundException e)
+        {
+            Toast.makeText(MainActivity.this,"err!", Toast.LENGTH_SHORT).show();
+        }
+
+
+        //Toast.makeText(this,filestring,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        Toast.makeText(MainActivity.this,"onActivityResult", Toast.LENGTH_SHORT).show();
+        if (resultCode == Activity.RESULT_OK)//是否选择,没选择就不会继续
+        {
+            Toast.makeText(MainActivity.this,"", Toast.LENGTH_SHORT).show();
+            Uri uri = data.getData();//得到uri,后面就是将uri转化成file的过程。
+            String[] proj = {MediaStore.Images.Media.DATA};
+            Cursor actualimagecursor = getContentResolver().query(uri, proj, null, null, null);
+            int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            actualimagecursor.moveToFirst();
+            String img_path = actualimagecursor.getString(actual_image_column_index);
+            File file = new File(img_path);
+            Toast.makeText(MainActivity.this, file.toString(), Toast.LENGTH_SHORT).show();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
